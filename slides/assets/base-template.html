@@ -12,293 +12,298 @@
         }
 
         :root {
-            /* Customize these variables for your brand */
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #3b82f6;
-            --text-color: #1f2937;
-            --text-muted: #6b7280;
-            --bg-color: #ffffff;
-            --bg-secondary: #f3f4f6;
-            --slide-width: 1280px;
-            --slide-height: 720px;
-        }
-
-        /* Dark mode variant */
-        .dark {
-            --primary-color: #3b82f6;
-            --secondary-color: #60a5fa;
-            --accent-color: #93c5fd;
-            --text-color: #f9fafb;
-            --text-muted: #9ca3af;
-            --bg-color: #111827;
-            --bg-secondary: #1f2937;
+            /* Brand colors - customize these */
+            --primary-color: #00d4aa;
+            --secondary-color: #00a8cc;
+            --accent-color: #667eea;
+            --text-color: #ffffff;
+            --text-muted: #888;
+            --bg-color: #0a0a0a;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --danger-color: #ff5252;
+            --warning-color: #ffc107;
+            --success-color: #73bf69;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
             overflow: hidden;
+            min-height: 100vh;
         }
 
-        /* ===== PRESENTATION MODE (default) ===== */
-        .presentation-container {
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        /* ===== SLIDES ===== */
+        .slide {
+            display: none;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 50px 70px;
             position: relative;
-        }
-
-        .slide {
-            width: var(--slide-width);
-            height: var(--slide-height);
-            background: var(--bg-color);
-            border-radius: 8px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            padding: 3rem 4rem;
-            display: none;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            transform: scale(1);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
         }
 
         .slide.active {
             display: flex;
+            flex-direction: column;
         }
 
-        /* Scale slides to fit viewport */
-        @media (max-width: 1300px) or (max-height: 750px) {
-            .slide {
-                transform: scale(0.8);
-            }
+        .slide-header {
+            margin-bottom: 30px;
+            flex-shrink: 0;
         }
 
-        @media (max-width: 1050px) or (max-height: 600px) {
-            .slide {
-                transform: scale(0.6);
-            }
+        .slide-category {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
         }
 
-        /* ===== NAVIGATION CONTROLS ===== */
-        .nav-controls {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1.25rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .slide-counter {
-            color: white;
-            font-size: 0.9rem;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .fullscreen-btn {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-        }
-
-        /* ===== PROGRESS BAR ===== */
-        .progress-bar-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-
-        /* ===== SLIDE LAYOUTS ===== */
-        .slide.title-slide {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .slide.content-slide {
-            justify-content: flex-start;
-        }
-
-        .slide.two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 2rem;
-        }
-
-        .slide.two-column.active {
-            display: grid;
-        }
-
-        .slide.two-column .slide-title {
-            grid-column: 1 / -1;
-        }
-
-        .slide.image-left {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 2rem;
-        }
-
-        .slide.image-left.active {
-            display: grid;
-        }
-
-        .slide.image-right {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 2rem;
-        }
-
-        .slide.image-right.active {
-            display: grid;
-        }
-
-        /* ===== TYPOGRAPHY ===== */
         .slide-title {
-            font-size: 2.5rem;
+            font-size: 42px;
             font-weight: 700;
-            color: var(--text-color);
-            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1.2;
         }
 
         .slide-subtitle {
-            font-size: 1.5rem;
-            font-weight: 400;
+            font-size: 20px;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-top: 8px;
         }
 
         .slide-content {
-            font-size: 1.25rem;
-            color: var(--text-color);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            margin-right: 130px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: #555;
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+
+        .slide-footer .logo {
+            height: 20px;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== TITLE SLIDE ===== */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .logo-large {
+            height: 80px;
+            width: auto;
+            margin-bottom: 40px;
+        }
+
+        .title-slide .main-title {
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 28px;
+            color: var(--text-muted);
+            margin-bottom: 60px;
+        }
+
+        .title-slide .author {
+            font-size: 22px;
+            color: var(--primary-color);
+        }
+
+        .title-slide .date {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* ===== SECTION SLIDE ===== */
+        .section-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .section-slide .section-number {
+            font-size: 100px;
+            font-weight: 800;
+            color: rgba(0, 212, 170, 0.2);
+            line-height: 1;
+        }
+
+        .section-slide .section-title {
+            font-size: 52px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: -20px;
+        }
+
+        .section-slide .section-subtitle {
+            font-size: 22px;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        /* ===== LAYOUTS ===== */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+
+        .card-content {
+            color: #aaa;
             line-height: 1.6;
+            font-size: 15px;
         }
 
-        .slide-content ul, .slide-content ol {
-            padding-left: 1.5rem;
+        /* ===== LISTS ===== */
+        ul {
+            list-style: none;
+            padding-left: 0;
         }
 
-        .slide-content li {
-            margin-bottom: 0.75rem;
+        ul li {
+            padding: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 18px;
+            color: #ccc;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .slide-content li::marker {
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
             color: var(--primary-color);
         }
 
         /* ===== CODE BLOCKS ===== */
         .code-block {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 1.5rem;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            overflow-x: auto;
-            margin: 1rem 0;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow: auto;
+            color: #e6edf3;
         }
 
-        .code-block code {
-            color: var(--text-color);
-        }
+        .code-keyword { color: #ff7b72; }
+        .code-string { color: #a5d6ff; }
+        .code-comment { color: #8b949e; }
+        .code-number { color: #79c0ff; }
+        .code-property { color: #d2a8ff; }
+        .code-command { color: #00d4aa; }
+        .code-url { color: #00a8cc; }
 
-        /* Syntax highlighting */
-        .code-block .keyword { color: #c678dd; }
-        .code-block .string { color: #98c379; }
-        .code-block .number { color: #d19a66; }
-        .code-block .comment { color: #5c6370; font-style: italic; }
-        .code-block .function { color: #61afef; }
-
-        /* ===== IMAGES ===== */
-        .slide-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .image-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* ===== EMPHASIS BOXES ===== */
+        /* ===== HIGHLIGHT BOX ===== */
         .highlight-box {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-
-        .quote-box {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 168, 204, 0.1));
             border-left: 4px solid var(--primary-color);
-            padding-left: 1.5rem;
-            font-style: italic;
-            color: var(--text-muted);
-            margin: 1rem 0;
+            padding: 25px;
+            border-radius: 0 16px 16px 0;
+            margin: 20px 0;
         }
 
-        /* ===== METRICS/STATS ===== */
-        .metrics {
+        .highlight-box strong {
+            color: var(--primary-color);
+        }
+
+        /* ===== METRICS ===== */
+        .metric-row {
             display: flex;
-            gap: 2rem;
+            gap: 40px;
             justify-content: center;
-            margin: 2rem 0;
+            margin: 30px 0;
         }
 
         .metric {
@@ -306,151 +311,227 @@
         }
 
         .metric-value {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 56px;
+            font-weight: 800;
             color: var(--primary-color);
             line-height: 1;
         }
 
         .metric-label {
-            font-size: 1rem;
+            font-size: 16px;
             color: var(--text-muted);
-            margin-top: 0.5rem;
+            margin-top: 10px;
         }
 
-        /* ===== ANIMATED COUNTER ===== */
+        /* Animated counter */
         .metric-value[data-target] {
             /* Counter animation handled by JS */
         }
 
-        /* ===== CHARTS (CSS-only animated) ===== */
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 1.5rem;
-            height: 300px;
-            padding: 1rem 0;
-        }
-
-        .bar-item {
-            display: flex;
-            flex-direction: column;
+        /* ===== COMPARISON (BEFORE/AFTER) ===== */
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
             align-items: center;
-            gap: 0.5rem;
         }
 
-        .bar {
-            width: 60px;
-            background: linear-gradient(to top, var(--primary-color), var(--accent-color));
-            border-radius: 4px 4px 0 0;
-            transform-origin: bottom;
-            transform: scaleY(0);
+        .before-box {
+            background: rgba(255, 82, 82, 0.1);
+            border: 2px solid rgba(255, 82, 82, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
         }
 
-        .slide.active .bar {
-            animation: growBar 0.8s ease-out forwards;
+        .after-box {
+            background: rgba(0, 212, 170, 0.1);
+            border: 2px solid rgba(0, 212, 170, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
         }
 
-        .bar-item:nth-child(1) .bar { animation-delay: 0.1s; }
-        .bar-item:nth-child(2) .bar { animation-delay: 0.2s; }
-        .bar-item:nth-child(3) .bar { animation-delay: 0.3s; }
-        .bar-item:nth-child(4) .bar { animation-delay: 0.4s; }
-        .bar-item:nth-child(5) .bar { animation-delay: 0.5s; }
-
-        .bar-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .bar-value {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        @keyframes growBar {
-            to { transform: scaleY(1); }
-        }
-
-        /* Donut/Pie chart */
-        .donut-chart {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .donut-center {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: var(--bg-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .donut-value {
-            font-size: 2rem;
-            font-weight: 700;
+        .arrow-icon {
+            font-size: 48px;
             color: var(--primary-color);
         }
 
-        .donut-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        /* ===== DIAGRAMS ===== */
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            border: 1px solid #333;
         }
 
-        /* Line chart placeholder */
-        .line-chart {
-            width: 100%;
-            height: 250px;
+        .diagram-box {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 15px 25px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .diagram-box.primary {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
+        }
+
+        .diagram-box.secondary {
+            border-color: var(--accent-color);
+        }
+
+        .diagram-box.danger {
+            border-color: var(--danger-color);
+        }
+
+        .diagram-box-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .diagram-box-content {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .diagram-arrow {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--primary-color), transparent);
             position: relative;
         }
 
-        .line-chart svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .line-chart path.line {
-            fill: none;
-            stroke: var(--primary-color);
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-        }
-
-        .slide.active .line-chart path.line {
-            animation: drawLine 1.5s ease-out forwards;
-        }
-
-        @keyframes drawLine {
-            to { stroke-dashoffset: 0; }
-        }
-
-        /* ===== FOOTER ===== */
-        .slide-footer {
+        .diagram-arrow::after {
+            content: "▼";
             position: absolute;
-            bottom: 1.5rem;
-            left: 4rem;
-            right: 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary-color);
+            font-size: 12px;
         }
 
-        .slide-footer .logo {
-            height: 24px;
+        .diagram-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== TABLES ===== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .comparison-table th {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* ===== TAGS ===== */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tag-fix {
+            background: rgba(255, 82, 82, 0.2);
+            color: var(--danger-color);
+        }
+
+        .tag-improve {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning-color);
+        }
+
+        .tag-new {
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--primary-color);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-red { color: var(--danger-color); }
+        .text-green { color: var(--primary-color); }
+        .text-yellow { color: var(--warning-color); }
+        .text-muted { color: var(--text-muted); }
+
+        .mt-10 { margin-top: 10px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+
+        .small-text { font-size: 14px; }
+
+        h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        strong { color: var(--primary-color); }
+
+        /* ===== NAVIGATION ===== */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 212, 170, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 32px;
+            left: 70px;
+            font-size: 12px;
+            color: #444;
+            z-index: 1000;
+            font-family: 'SF Mono', monospace;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -470,27 +551,15 @@
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.8); }
+            from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Animation classes - only animate when slide is active */
+        /* Animation classes - only when slide is active */
         .slide.active .animate-fade { animation: fadeIn 0.6s ease-out both; }
         .slide.active .animate-left { animation: slideInLeft 0.6s ease-out both; }
         .slide.active .animate-right { animation: slideInRight 0.6s ease-out both; }
         .slide.active .animate-scale { animation: scaleIn 0.6s ease-out both; }
-        .slide.active .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-        .slide.active .animate-bounce { animation: bounce 1s ease-in-out infinite; }
 
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
@@ -498,18 +567,6 @@
         .delay-4 { animation-delay: 0.4s; }
         .delay-5 { animation-delay: 0.5s; }
         .delay-6 { animation-delay: 0.6s; }
-        .delay-7 { animation-delay: 0.7s; }
-        .delay-8 { animation-delay: 0.8s; }
-
-        /* ===== SLIDE TRANSITIONS ===== */
-        .slide {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
 
         /* ===== PRINT MODE ===== */
         @media print {
@@ -517,125 +574,99 @@
                 background: white;
                 overflow: visible;
             }
-            .presentation-container {
-                display: block;
-                width: auto;
-                height: auto;
-            }
             .slide {
                 display: flex !important;
                 opacity: 1 !important;
                 box-shadow: none;
                 page-break-after: always;
                 margin: 0 auto 2rem;
-                transform: none !important;
             }
             .nav-controls,
-            .fullscreen-btn,
-            .progress-bar-container {
+            .slide-counter,
+            .progress-bar {
                 display: none !important;
             }
-        }
-
-        /* ===== KEYBOARD HINTS ===== */
-        .keyboard-hints {
-            position: fixed;
-            bottom: 5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.75rem;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 0.3s;
-        }
-
-        .keyboard-hints.hidden {
-            opacity: 0;
-        }
-
-        kbd {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            margin: 0 0.25rem;
         }
     </style>
 </head>
 <body>
     <!-- Progress bar -->
-    <div class="progress-bar-container">
-        <div class="progress-bar-fill" id="progressBar"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Title Slide -->
+    <div class="slide title-slide active">
+        <img src="logo.png" alt="Logo" class="logo-large animate-fade">
+        <div class="main-title animate-fade delay-1">{{TITLE}}</div>
+        <div class="subtitle animate-fade delay-2">{{SUBTITLE}}</div>
+        <div class="author animate-fade delay-3">{{AUTHOR}}</div>
+        <div class="date animate-fade delay-4">{{DATE}}</div>
     </div>
 
-    <!-- Fullscreen button -->
-    <button class="nav-btn fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">
-        ⛶
-    </button>
-
-    <!-- Presentation container -->
-    <div class="presentation-container">
-        <!-- Title Slide -->
-        <div class="slide title-slide dark active">
-            <h1 class="slide-title animate-fade">{{TITLE}}</h1>
-            <p class="slide-subtitle animate-fade delay-2">{{SUBTITLE}}</p>
-            <div class="slide-footer">
-                <span>{{AUTHOR}}</span>
-                <span>{{DATE}}</span>
-            </div>
+    <!-- Content Slide Example -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-category animate-fade">CATEGORY</div>
+            <div class="slide-title animate-fade">Slide Title Here</div>
+            <div class="slide-subtitle animate-fade delay-1">Optional subtitle</div>
         </div>
-
-        <!-- Content Slide Example -->
-        <div class="slide content-slide dark">
-            <h2 class="slide-title">Slide Title Here</h2>
-            <div class="slide-content">
-                <ul>
-                    <li class="animate-left delay-1">First bullet point</li>
-                    <li class="animate-left delay-2">Second bullet point</li>
-                    <li class="animate-left delay-3">Third bullet point</li>
-                </ul>
-            </div>
-            <div class="slide-footer">
+        <div class="slide-content">
+            <ul>
+                <li class="animate-left delay-1">First bullet point with detail</li>
+                <li class="animate-left delay-2">Second bullet point</li>
+                <li class="animate-left delay-3">Third bullet point</li>
+            </ul>
+        </div>
+        <div class="slide-footer">
+            <div class="footer-left">
                 <img src="logo.png" alt="Logo" class="logo">
-                <span>2</span>
+                <span>{{PRESENTATION_NAME}}</span>
+            </div>
+            <span>2</span>
+        </div>
+    </div>
+
+    <!-- Three Column Cards Example -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-category animate-fade">CATEGORY</div>
+            <div class="slide-title animate-fade">Three Column Layout</div>
+        </div>
+        <div class="slide-content">
+            <div class="three-column">
+                <div class="card animate-scale delay-1">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">Feature 1</div>
+                    <div class="card-content">Description of the first feature goes here with details.</div>
+                </div>
+                <div class="card animate-scale delay-2">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">Feature 2</div>
+                    <div class="card-content">Description of the second feature goes here.</div>
+                </div>
+                <div class="card animate-scale delay-3">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">Feature 3</div>
+                    <div class="card-content">Description of the third feature goes here.</div>
+                </div>
             </div>
         </div>
-
-        <!-- Chart Slide Example -->
-        <div class="slide content-slide dark">
-            <h2 class="slide-title">Performance Metrics</h2>
-            <div class="bar-chart">
-                <div class="bar-item">
-                    <div class="bar-value">85%</div>
-                    <div class="bar" style="height: 85%;"></div>
-                    <div class="bar-label">Q1</div>
-                </div>
-                <div class="bar-item">
-                    <div class="bar-value">92%</div>
-                    <div class="bar" style="height: 92%;"></div>
-                    <div class="bar-label">Q2</div>
-                </div>
-                <div class="bar-item">
-                    <div class="bar-value">78%</div>
-                    <div class="bar" style="height: 78%;"></div>
-                    <div class="bar-label">Q3</div>
-                </div>
-                <div class="bar-item">
-                    <div class="bar-value">95%</div>
-                    <div class="bar" style="height: 95%;"></div>
-                    <div class="bar-label">Q4</div>
-                </div>
-            </div>
-            <div class="slide-footer">
+        <div class="slide-footer">
+            <div class="footer-left">
                 <img src="logo.png" alt="Logo" class="logo">
-                <span>3</span>
+                <span>{{PRESENTATION_NAME}}</span>
             </div>
+            <span>3</span>
         </div>
+    </div>
 
-        <!-- Metrics Slide Example -->
-        <div class="slide content-slide dark">
-            <h2 class="slide-title">Key Metrics</h2>
-            <div class="metrics">
+    <!-- Metrics Slide Example -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-category animate-fade">CATEGORY</div>
+            <div class="slide-title animate-fade">Key Metrics</div>
+        </div>
+        <div class="slide-content">
+            <div class="metric-row">
                 <div class="metric animate-fade delay-1">
                     <div class="metric-value" data-target="99.9">0</div>
                     <div class="metric-label">% Uptime</div>
@@ -649,60 +680,91 @@
                     <div class="metric-label">Users</div>
                 </div>
             </div>
-            <div class="slide-footer">
-                <img src="logo.png" alt="Logo" class="logo">
-                <span>4</span>
-            </div>
         </div>
+        <div class="slide-footer">
+            <div class="footer-left">
+                <img src="logo.png" alt="Logo" class="logo">
+                <span>{{PRESENTATION_NAME}}</span>
+            </div>
+            <span>4</span>
+        </div>
+    </div>
 
-        <!-- Two Column Slide Example -->
-        <div class="slide two-column dark">
-            <h2 class="slide-title">Two Column Layout</h2>
-            <div class="slide-content animate-left">
-                <h3>Left Column</h3>
-                <ul>
-                    <li>Point one</li>
-                    <li>Point two</li>
-                </ul>
-            </div>
-            <div class="slide-content animate-right">
-                <h3>Right Column</h3>
-                <ul>
-                    <li>Point three</li>
-                    <li>Point four</li>
-                </ul>
-            </div>
-            <div class="slide-footer">
-                <img src="logo.png" alt="Logo" class="logo">
-                <span>5</span>
-            </div>
+    <!-- Code Slide Example -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-category animate-fade">CATEGORY</div>
+            <div class="slide-title animate-fade">Code Example</div>
         </div>
+        <div class="slide-content">
+            <div class="code-block animate-scale delay-1">
+                <code><span class="code-keyword">function</span> <span class="code-command">greet</span>(name) {
+    <span class="code-keyword">return</span> <span class="code-string">`Hello, ${name}!`</span>;
+}
 
-        <!-- Code Slide Example -->
-        <div class="slide content-slide dark">
-            <h2 class="slide-title">Code Example</h2>
-            <div class="code-block animate-scale">
-                <code><span class="keyword">function</span> <span class="function">greet</span>(name) {
-    <span class="keyword">return</span> <span class="string">`Hello, ${name}!`</span>;
-}</code>
-            </div>
-            <div class="slide-footer">
-                <img src="logo.png" alt="Logo" class="logo">
-                <span>6</span>
+<span class="code-comment">// Call the function</span>
+greet(<span class="code-string">"World"</span>);</code>
             </div>
         </div>
+        <div class="slide-footer">
+            <div class="footer-left">
+                <img src="logo.png" alt="Logo" class="logo">
+                <span>{{PRESENTATION_NAME}}</span>
+            </div>
+            <span>5</span>
+        </div>
+    </div>
+
+    <!-- Two Column Example -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-category animate-fade">CATEGORY</div>
+            <div class="slide-title animate-fade">Two Column Layout</div>
+        </div>
+        <div class="slide-content">
+            <div class="two-column">
+                <div class="animate-left delay-1">
+                    <h3>Left Side</h3>
+                    <ul>
+                        <li>Point one here</li>
+                        <li>Point two here</li>
+                        <li>Point three here</li>
+                    </ul>
+                </div>
+                <div class="animate-right delay-2">
+                    <div class="diagram">
+                        <div class="diagram-box primary">
+                            <div class="diagram-box-title">Component</div>
+                            <div class="diagram-box-content">Details here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <div class="footer-left">
+                <img src="logo.png" alt="Logo" class="logo">
+                <span>{{PRESENTATION_NAME}}</span>
+            </div>
+            <span>6</span>
+        </div>
+    </div>
+
+    <!-- Section Divider Example -->
+    <div class="slide section-slide">
+        <div class="section-number animate-fade">01</div>
+        <div class="section-title animate-fade delay-1">Section Title</div>
+        <div class="section-subtitle animate-fade delay-2">Section subtitle</div>
     </div>
 
     <!-- Navigation controls -->
     <div class="nav-controls">
         <button class="nav-btn" id="prevBtn" onclick="prevSlide()" title="Previous (←)">←</button>
-        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">6</span></span>
         <button class="nav-btn" id="nextBtn" onclick="nextSlide()" title="Next (→)">→</button>
     </div>
 
-    <!-- Keyboard hints (auto-hide after first navigation) -->
-    <div class="keyboard-hints" id="keyboardHints">
-        Use <kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> to navigate • <kbd>F</kbd> for fullscreen
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
     </div>
 
     <script>
@@ -710,40 +772,27 @@
         let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
-        let hintsHidden = false;
 
         // Initialize
         document.getElementById('totalSlides').textContent = totalSlides;
         updateSlide();
 
         function updateSlide() {
-            // Hide all slides
             slides.forEach((slide, index) => {
                 slide.classList.remove('active');
             });
-
-            // Show current slide
             slides[currentSlideIndex].classList.add('active');
 
-            // Update counter
             document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
 
-            // Update progress bar
             const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
 
-            // Update button states
             document.getElementById('prevBtn').disabled = currentSlideIndex === 0;
             document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides - 1;
 
             // Animate counters on this slide
             animateCounters();
-
-            // Hide keyboard hints after first navigation
-            if (!hintsHidden && currentSlideIndex > 0) {
-                document.getElementById('keyboardHints').classList.add('hidden');
-                hintsHidden = true;
-            }
         }
 
         function nextSlide() {
@@ -819,12 +868,10 @@
                     e.preventDefault();
                     prevSlide();
                     break;
-                case 'ArrowUp':
                 case 'Home':
                     e.preventDefault();
                     goToSlide(0);
                     break;
-                case 'ArrowDown':
                 case 'End':
                     e.preventDefault();
                     goToSlide(totalSlides - 1);
@@ -834,50 +881,21 @@
                     e.preventDefault();
                     toggleFullscreen();
                     break;
-                case 'Escape':
-                    if (document.fullscreenElement) {
-                        document.exitFullscreen();
-                    }
-                    break;
             }
         });
 
         // Touch/swipe support
         let touchStartX = 0;
-        let touchEndX = 0;
-
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         });
 
         document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
+            const touchEndX = e.changedTouches[0].screenX;
             const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-            }
-        }
-
-        // Click to advance (on slide area, not controls)
-        document.querySelector('.presentation-container').addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-controls') && !e.target.closest('.nav-btn')) {
-                const rect = document.querySelector('.presentation-container').getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                if (clickX > rect.width / 2) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextSlide();
+                else prevSlide();
             }
         });
     </script>
