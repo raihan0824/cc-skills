@@ -289,7 +289,3 @@ To add new skills to this repository:
 3. Include examples and documentation
 4. Test with both Claude Code and OpenCode
 5. Submit a pull request
-
-## License
-
-[Add your license here]
