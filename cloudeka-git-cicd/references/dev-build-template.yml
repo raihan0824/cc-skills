@@ -1,0 +1,47 @@
+# Dev Build — push to main triggers dev image build
+# Images tagged: dev-<short-sha>
+name: Dev Build
+
+on:
+  push:
+    branches: [main]
+    tags-ignore: ['**']
+
+env:
+  REGISTRY: dekaregistry.cloudeka.id
+  IMAGE_PREFIX: dekaregistry.cloudeka.id/cloudeka-system
+
+jobs:
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set dev tag
+        run: echo "DEV_TAG=dev-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Login to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+
+      - name: Build and push
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:${{ env.DEV_TAG }} ./frontend
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:${{ env.DEV_TAG }}
+
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set dev tag
+        run: echo "DEV_TAG=dev-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Login to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+
+      - name: Build and push
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:${{ env.DEV_TAG }} ./backend
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:${{ env.DEV_TAG }}

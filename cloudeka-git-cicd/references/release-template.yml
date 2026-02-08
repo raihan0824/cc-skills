@@ -1,0 +1,68 @@
+# Release — git tag push triggers stable build + GitHub Release
+# Images tagged: v1.0.0 + latest
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+env:
+  REGISTRY: dekaregistry.cloudeka.id
+  IMAGE_PREFIX: dekaregistry.cloudeka.id/cloudeka-system
+
+jobs:
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Login to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+
+      - name: Build and push
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:${{ env.VERSION }} \
+                        -t ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:latest \
+                        ./frontend
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:${{ env.VERSION }}
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-frontend:latest
+
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Login to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+
+      - name: Build and push
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:${{ env.VERSION }} \
+                        -t ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:latest \
+                        ./backend
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:${{ env.VERSION }}
+          docker push ${{ env.IMAGE_PREFIX }}/APP_NAME-backend:latest
+
+  github-release:
+    name: Create GitHub Release
+    needs: [build-frontend, build-backend]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create ${{ github.ref_name }} --generate-notes
