@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; padding: 24px; }
+  h1 { text-align: center; font-size: 1.5rem; margin-bottom: 6px; color: #58a6ff; }
+  .subtitle { text-align: center; color: #8b949e; margin-bottom: 20px; font-size: 0.85rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* Controls */
+  .controls { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .btn { padding: 8px 16px; border-radius: 6px; border: 1px solid #30363d; background: #21262d; color: #e6edf3; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; user-select: none; display: inline-flex; align-items: center; gap: 5px; }
+  .btn:hover { background: #30363d; }
+  .btn.primary { background: #238636; border-color: #2ea043; }
+  .btn.primary:hover { background: #2ea043; }
+  .btn.play { background: #1f6feb; border-color: #388bfd; }
+  .btn.play:hover { background: #388bfd; }
+  .btn.stop { background: #9e1c23; border-color: #f85149; }
+  .btn.stop:hover { background: #b62324; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn svg { width: 14px; height: 14px; fill: currentColor; }
+  .step-label { color: #8b949e; font-size: 0.85rem; flex: 1; text-align: right; }
+  .speed-control { display: flex; align-items: center; gap: 6px; color: #8b949e; font-size: 0.75rem; }
+  .speed-control select { background: #161b22; color: #c9d1d9; border: 1px solid #30363d; border-radius: 4px; padding: 4px 6px; font-size: 0.75rem; cursor: pointer; }
+
+  /* Progress Bar */
+  .progress-bar { display: flex; gap: 3px; margin-bottom: 16px; }
+  .progress-dot { flex: 1; height: 4px; border-radius: 2px; background: #21262d; transition: background 0.3s; }
+  .progress-dot.done { background: #238636; }
+  .progress-dot.current { background: #58a6ff; }
+
+  /* Narration */
+  .narration { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; min-height: 64px; }
+  .narration .step-title { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #58a6ff; margin-bottom: 6px; }
+  .narration .step-body { display: block; font-size: 0.88rem; line-height: 1.6; color: #c9d1d9; }
+  .narration .step-body .hl { color: #58a6ff; font-weight: 600; }
+  .narration .step-body .yellow { color: #e3b341; font-weight: 600; }
+  .narration .step-body .green { color: #3fb950; font-weight: 600; }
+  .narration .step-body .red { color: #f85149; font-weight: 600; }
+
+  /* Metrics Bar */
+  .metrics-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .metric { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px 16px; flex: 1; min-width: 120px; text-align: center; }
+  .metric-label { font-size: 0.65rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.04em; }
+  .metric-value { font-size: 1.2rem; font-weight: 800; margin-top: 2px; }
+  .metric-value.red { color: #f85149; }
+  .metric-value.green { color: #3fb950; }
+  .metric-value.blue { color: #58a6ff; }
+
+  /* Explanation */
+  .explanation { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .explanation h3 { margin-top: 0; margin-bottom: 10px; color: #58a6ff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .explanation p { font-size: 0.85rem; line-height: 1.6; color: #c9d1d9; margin-bottom: 8px; }
+
+  /* Footer */
+  .footer { text-align: center; margin-top: 20px; padding: 12px; font-size: 0.8rem; color: #484f58; }
+  .footer a { color: #58a6ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* {{CUSTOM_CSS}} */
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>{{TITLE}}</h1>
+  <p class="subtitle">{{SUBTITLE}}</p>
+
+  <div class="controls">
+    <button class="btn" id="prevBtn" onclick="go(-1)">
+      <svg viewBox="0 0 16 16"><path d="M9.78 12.78a.75.75 0 01-1.06 0L4.47 8.53a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L6.06 8l3.72 3.72a.75.75 0 010 1.06z"/></svg>
+      Prev
+    </button>
+    <button class="btn primary" id="nextBtn" onclick="go(1)">
+      Next
+      <svg viewBox="0 0 16 16"><path d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z"/></svg>
+    </button>
+    <button class="btn play" id="playBtn" onclick="togglePlay()">
+      <svg id="playIcon" viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg>
+      <svg id="stopIcon" viewBox="0 0 16 16" style="display:none"><rect x="3" y="3" width="10" height="10" rx="1"/></svg>
+      <span id="playLabelEl">Play</span>
+    </button>
+    <div class="speed-control">
+      <label for="speedSel">Speed:</label>
+      <select id="speedSel">
+        <option value="3000">Slow</option>
+        <option value="1800" selected>Normal</option>
+        <option value="1000">Fast</option>
+      </select>
+    </div>
+    <span class="step-label" id="stepLabel">Step 0 / {{MAX_STEP}}</span>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="narration" id="narration">
+    <span class="step-title">Getting Started</span>
+    <span class="step-body">Click <span class="hl">Next</span> to step through, or <span class="hl">Play</span> to auto-advance.</span>
+  </div>
+
+  <!-- {{VISUALIZATION_CONTENT}} -->
+
+  <div class="metrics-bar">
+    <!-- {{METRICS}} -->
+  </div>
+
+  <div class="explanation">
+    <!-- {{EXPLANATION_CONTENT}} -->
+  </div>
+
+  <div class="footer">Created by <a href="https://github.com/raihan0824" target="_blank">Raihan Afiandi</a></div>
+</div>
+
+<script>
+var currentStep = 0;
+var MAX = {{MAX_STEP}};
+var playing = false;
+var playTimer = null;
+
+// Step narrations: [title, body_html]
+var narrations = [
+  ['Getting Started',
+   'Click <span class="hl">Next</span> to step through, or <span class="hl">Play</span> to auto-advance.'],
+  // {{NARRATIONS}}
+];
+
+function render() {
+  // {{RENDER_LOGIC}} — rebuild visualization state from currentStep
+
+  // Narration
+  var n = narrations[currentStep];
+  document.getElementById('narration').innerHTML =
+    '<span class="step-title">' + n[0] + '</span><span class="step-body">' + n[1] + '</span>';
+
+  // Progress bar
+  var pEl = document.getElementById('progressBar');
+  pEl.innerHTML = '';
+  for (var i = 0; i <= MAX; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    if (i < currentStep) dot.className += ' done';
+    else if (i === currentStep) dot.className += ' current';
+    pEl.appendChild(dot);
+  }
+
+  // Button states
+  document.getElementById('stepLabel').textContent = 'Step ' + currentStep + ' / ' + MAX;
+  document.getElementById('prevBtn').disabled = (currentStep <= 0);
+  document.getElementById('nextBtn').disabled = (currentStep >= MAX);
+}
+
+function go(dir) {
+  var next = currentStep + dir;
+  if (next < 0) next = 0;
+  if (next > MAX) next = MAX;
+  currentStep = next;
+  render();
+}
+
+function togglePlay() {
+  playing = !playing;
+  updatePlayBtn();
+  if (playing) playTick();
+  else clearTimeout(playTimer);
+}
+
+function playTick() {
+  if (!playing) return;
+  if (currentStep >= MAX) { playing = false; updatePlayBtn(); return; }
+  currentStep++;
+  render();
+  var speed = parseInt(document.getElementById('speedSel').value, 10);
+  playTimer = setTimeout(playTick, speed);
+}
+
+function updatePlayBtn() {
+  document.getElementById('playIcon').style.display = playing ? 'none' : '';
+  document.getElementById('stopIcon').style.display = playing ? '' : 'none';
+  document.getElementById('playLabelEl').textContent = playing ? 'Stop' : 'Play';
+  var btn = document.getElementById('playBtn');
+  if (playing) { btn.classList.remove('play'); btn.classList.add('stop'); }
+  else { btn.classList.remove('stop'); btn.classList.add('play'); }
+}
+
+render();
+</script>
+</body>
+</html>
